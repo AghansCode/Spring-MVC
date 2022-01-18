@@ -44,9 +44,9 @@
       </div>
     </nav>
     <div class="container">
-      <h2>Add New Product</h2>
+      <h2>Edit Product</h2>
       <div>
-        <form th:object="${product}" th:action="@{/save}" method="POST">
+        <form th:object="${product}" th:action="@{/update}" method="POST">
           <div class="form-group">
             <label for="">Code</label>
             <input type="text" class="form-control" th:field="*{code}" />
@@ -60,7 +60,8 @@
             <input type="number" class="form-control" th:field="*{price}" />
           </div>
           <br />
-          <p><button class="btn btn-primary" type="submit">Submit</button></p>
+          <input type="hidden" th:field="*{id}" />
+          <p><button class="btn btn-primary" type="submit">Update</button></p>
         </form>
       </div>
     </div>
