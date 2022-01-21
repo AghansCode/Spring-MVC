@@ -1,5 +1,6 @@
 package com.aghanscode.controller;
 
+import com.aghanscode.dto.SearchFormData;
 import com.aghanscode.entity.Product;
 import com.aghanscode.service.ProductService;
 
@@ -23,6 +24,7 @@ public class HomeController {
         //doing something
         String message = "Welcome to Spring MVC with AghansCode";
         model.addAttribute("msg", message);
+        model.addAttribute("searchForm", new SearchFormData());
         model.addAttribute("products", productService.findAll());
         return "index";
     }
@@ -57,5 +59,13 @@ public class HomeController {
         return "redirect:/";
     }
 
+    @PostMapping("/search")
+    public String search(SearchFormData searchFormData, Model model){
+        String message = "Welcome to Spring MVC with AghansCode";
+        model.addAttribute("msg", message);
+        model.addAttribute("searchForm", searchFormData);
+        model.addAttribute("products", productService.findByName(searchFormData.getKeyword()));
+        return "index";
+    }
 
 }
