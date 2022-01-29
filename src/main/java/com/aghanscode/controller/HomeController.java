@@ -1,5 +1,7 @@
 package com.aghanscode.controller;
 
+import javax.servlet.http.HttpSession;
+
 import com.aghanscode.dto.SearchFormData;
 import com.aghanscode.entity.Product;
 import com.aghanscode.service.ProductService;
@@ -18,6 +20,9 @@ public class HomeController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private HttpSession session;
     
     @GetMapping
     public String welcome(Model model){
@@ -64,6 +69,7 @@ public class HomeController {
         String message = "Welcome to Spring MVC with AghansCode";
         model.addAttribute("msg", message);
         model.addAttribute("searchForm", searchFormData);
+        session.setAttribute("searchKey", searchFormData.getKeyword());
         model.addAttribute("products", productService.findByName(searchFormData.getKeyword()));
         return "index";
     }

@@ -1,6 +1,7 @@
 package com.aghanscode.controller;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.aghanscode.service.ReportService;
 
@@ -19,14 +20,19 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
+    
     @Autowired
     private HttpServletResponse response;
+
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/products")
     public void getProductReport() throws Exception{
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=\"product_list.pdf\"");
-        JasperPrint jasperPrint = reportService.generateJasperPrint();
+        String searchKey = session.getAttribute("searchKey").toString();
+        JasperPrint jasperPrint = reportService.generateJasperPrint(searchKey);
         JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
     }
 }

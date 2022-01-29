@@ -3,6 +3,8 @@ package com.aghanscode.service;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -29,10 +31,12 @@ public class ReportService {
         }
     }
 
-    public JasperPrint generateJasperPrint() throws Exception{
+    public JasperPrint generateJasperPrint(String paramName) throws Exception{
         InputStream fileReport = new ClassPathResource("reports/Product_List.jasper").getInputStream();
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(fileReport);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, getConnection());
+        Map<String, Object> params= new HashMap<String, Object>();
+        params.put("Name", "%"+paramName+"%");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, getConnection());
         return jasperPrint;
     }
 }
